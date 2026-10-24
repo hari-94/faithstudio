@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FaithStudio sign-in</title><link rel="stylesheet" href="style.css"></head><body>
+<h1>FaithStudio sign-in</h1>
+<div id="out"><p>Waiting for sign-in result…</p></div>
+<script>
+const q = new URLSearchParams(location.search), out = document.getElementById('out');
+if (q.get('code')) {
+  out.innerHTML = '<p>✅ Connected. Copy this one-time code and paste it back to Claude:</p>' +
+    '<p><input id="c" readonly style="width:100%;font-size:14px;padding:8px"></p><p><button id="b">Copy code</button> <span id="m"></span></p>';
+  const c = document.getElementById('c'); c.value = q.get('code') + (q.get('state') ? ' ' + q.get('state') : '');
+  document.getElementById('b').onclick = () => { c.select(); navigator.clipboard.writeText(c.value); document.getElementById('m').textContent = 'Copied!'; };
+} else if (q.get('error')) {
+  out.textContent = 'Sign-in was not completed: ' + (q.get('error_description') || q.get('error'));
+}
+</script>
+<p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p></body></html>
